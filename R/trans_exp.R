@@ -39,6 +39,8 @@ trans_exp = function(exp,mrna_only = F,lncrna_only = F,order = F){
   tmp = data.frame(gene_id = rownames(exp))
   x = dplyr::inner_join(tmp,manno,by = "gene_id")
   if(order) mRNA_exp = mRNA_exp[order(rowSums(mRNA_exp),decreasing = T),]
+  m <- match(rownames(mRNA_exp),x$gene_id)
+  x <- x[m,]
   mRNA_exp = mRNA_exp[!duplicated(x$gene_name),]
   x = x[!duplicated(x$gene_name),]
   rownames(mRNA_exp) = x$gene_name
@@ -46,6 +48,8 @@ trans_exp = function(exp,mrna_only = F,lncrna_only = F,order = F){
   tmp = data.frame(gene_id = rownames(exp))
   x = dplyr::inner_join(tmp,lanno,by = "gene_id")
   if(order) lnc_exp = lnc_exp[order(rowSums(lnc_exp),decreasing = T),]
+  m <- match(rownames(mRNA_exp),x$gene_id)
+  x <- x[m,]
   lnc_exp = lnc_exp[!duplicated(x$gene_name),]
   x = x[!duplicated(x$gene_name),]
   rownames(lnc_exp) = x$gene_name
